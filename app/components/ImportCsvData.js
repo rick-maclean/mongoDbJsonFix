@@ -12,7 +12,6 @@ const fs = require('fs');
 class ImportCsvData extends Component {
   state: {
     csvFileData: [],
-    osversionDataAllApps: [],
     csvFileSelected: boolean,
     csvFileToProcess: string,
     combinedDataToPersist: []
@@ -24,7 +23,6 @@ class ImportCsvData extends Component {
     // this.savePackageTitlesToArray = this.savePackageTitlesToArray.bind(this);
     this.state = {
       csvFileData: [],
-      osversionDataAllApps: [],
       csvFileSelected: false,
       csvFileToProcess: 'csvFileToProcess',
       combinedDataToPersist: []
@@ -78,6 +76,21 @@ class ImportCsvData extends Component {
     console.log(data);
     this.setState({ csvFileData: [] });
     this.setState({ csvFileData: data });
+    const allRecords = data.slice(1, data.length);
+    const tableData = [];
+    let tableRow = {};
+    for (let i = 1; i < allRecords.length; i++) {
+      const row = allRecords[i];
+      tableRow = { id: row[0],
+        metadata: { email: row[14],
+          domain: row[31],
+          recurringDonationId: row[32],
+          userId: row[34],
+          sfId: row[33] } };
+      console.log(tableRow);
+      tableData.push(tableRow);
+    }
+
     // const lastEntry = data[data.length - 2];
     // const packageName = lastEntry[1];
     // console.log(`PackageName: ${packageName}`);
