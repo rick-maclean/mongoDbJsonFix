@@ -1,0 +1,32 @@
+.container {
+  position: absolute;
+  top: 30%;
+  left: 10px;
+  text-align: center;
+}
+
+.container h2 {
+  font-size: 5rem;
+}
+
+.container a {
+  font-size: 1.4rem;
+}
+
+.start_img {
+     border: dotted 8px black;
+     width:200px;
+     height:20px;
+     display:inline-block;
+    }
+
+.app-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+  height: 50vmin;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}

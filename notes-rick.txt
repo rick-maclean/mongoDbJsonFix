@@ -1,0 +1,37 @@
+
+git clone --depth=1 https://github.com/rick-maclean/mongoDbJsonFix.git your-project-name
+
+cd your-project-name && npm install (this did not work)
+download and install     yarn
+run yarn
+$yarn install
+
+For Atom additions
+apm install editorconfig es6-javascript atom-ternjs javascript-snippets linter linter-eslint language-babel autocomplete-modules file-icons
+
+========================================================================
+yarn start      to launch the application
+yarn dev    to launch the application with inspect mode (can also see the react chrome extension which gives the ability to see react variable values)
+
+
+=======================================================================
+Create the following folders to hold the files that get downloaded from play.google.com
+../app/components/gsutil-download-countries-files
+../app/components/gsutil-download-osversion-files
+../app/components/gsutil-download-overview-files
+
+********* NOTE *******
+to ensure changes get into the running build
+first do
+$ yarn start
+then
+$ yarn dev
+I ran into issues where just doing (npm run dev) did not have the latest changes in it.
+
+------------------------
+how to use Papaparse
+https://stackoverflow.com/questions/42628426/read-local-csv-with-relative-path-in-reactjs
+
+
+-------------------------Loading the json data files
+npm install --save-dev json-loader

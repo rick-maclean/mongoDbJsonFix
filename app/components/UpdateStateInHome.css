@@ -1,0 +1,7 @@
+.start_img {
+     background: url(img/img1.png);
+     border: dotted 2px black;
+     width:200px;
+     height:20px;
+     display:inline-block;
+    }
