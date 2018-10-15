@@ -6,7 +6,7 @@ import Papa from 'papaparse';
 const app = electron.remote;
 const dialog = app.dialog;
 
-const path = require('path');
+// const path = require('path');
 const fs = require('fs');
 
 class ImportCsvData extends Component {
@@ -20,7 +20,6 @@ class ImportCsvData extends Component {
     super();
     this.onSelectCsvFile = this.onSelectCsvFile.bind(this);
     this.onProcessCsvFile = this.onProcessCsvFile.bind(this);
-    // this.savePackageTitlesToArray = this.savePackageTitlesToArray.bind(this);
     this.state = {
       csvFileData: [],
       csvFileSelected: false,
@@ -81,92 +80,46 @@ class ImportCsvData extends Component {
     let tableRow = {};
     for (let i = 1; i < allRecords.length; i++) {
       const row = allRecords[i];
-      tableRow = { id: row[0],
-        metadata: { email: row[14],
-          domain: row[31],
-          recurringDonationId: row[32],
-          userId: row[34],
-          sfId: row[33] } };
-      console.log(tableRow);
-      tableData.push(tableRow);
-    }
-
-    // const lastEntry = data[data.length - 2];
-    // const packageName = lastEntry[1];
-    // console.log(`PackageName: ${packageName}`);
-    // const lastTransactionDate = lastEntry[0];
-    // let i = data.length - 2;
-    // const tableData = [];
-    // let tableRow = {};
-    // while (data[i][0] === lastTransactionDate) {
-    //   const row = data[i];
-    //   if (row[2] === '') {
-    //     tableRow = { osVersion: 'unknown', installs: row[6], active: row[9] };
-    //   } else {
-    //     tableRow = { osVersion: row[2], installs: row[6], active: row[9] };
-    //   }
-    //   console.log(tableRow);
-    //   tableData.push(tableRow);
-    //   // console.log(tableData);
-    //   i--;
-    // }
-    // const osVersionEntry = { packageName, osVersionData: tableData };
-    // const osVersionAllData: [] = this.state.csvFileData;
-    // osVersionAllData.push(osVersionEntry);
-    // this.setState({ csvFileData: osVersionAllData });
-    console.log('entering doStuffCsvFile');
-  };
-
-  doStuffOsVersionFile = (data) => {
-    // Data is usable here
-    console.log(data);
-    this.setState({ csvFileData: data });
-    const lastEntry = data[data.length - 2];
-    const packageName = lastEntry[1];
-    console.log(`PackageName: ${packageName}`);
-    const lastTransactionDate = lastEntry[0];
-    let i = data.length - 2;
-    const tableData = [];
-    let tableRow = {};
-    while (data[i][0] === lastTransactionDate) {
-      const row = data[i];
-      if (row[2] === '') {
-        tableRow = { osVersion: 'unknown', installs: row[6], active: row[9] };
-      } else {
-        tableRow = { osVersion: row[2], installs: row[6], active: row[9] };
+      if (row[1] !== '') {
+        tableRow = {
+          plan_sfid: row[4],
+          customer_stid: row[1],
+          customer_email: row[3],
+          interval: row[6],
+          status: row[8],
+          metadata: { email: row[13],
+            domain: row[14],
+            recurringDonationId: row[15],
+            userId: row[17],
+            sfId: row[16] } };
+        console.log(tableRow);
+        tableData.push(tableRow);
       }
-      console.log(tableRow);
-      tableData.push(tableRow);
-      // console.log(tableData);
-      i--;
     }
-    const osVersionEntry = { packageName, osVersionData: tableData };
-    const osVersionAllData = this.state.csvFileData;
-    osVersionAllData.push(osVersionEntry);
-    this.setState({ csvFileData: osVersionAllData });
+    this.setState({ combinedDataToPersist: tableData });
+    console.log('leaving doStuffCsvFile');
   };
 
-  onCombineDataAndSave = () => {
-    console.log('entering onCombineDataAndSave');
-    const csvFileDataArray = this.state.csvFileData;
-
-    const combinedData = [];
-    let combinedDataOneApp = {};
-    let csvFileDataData = '';
-
-    let i = 0;
-    for (i = 0; i < csvFileDataArray.length; i++) {
-      csvFileDataData = csvFileDataArray[i].osVersionData;
-      combinedDataOneApp = {
-        osversionData: csvFileDataData
-      };
-      // console.log(combinedDataOneApp);
-      combinedData.push(combinedDataOneApp);
-    }
-    this.setState({ combinedDataToPersist: combinedData });
-    console.log('leaving onCombineDataAndSave');
-  };
-
+  // onCombineDataAndSave = () => {
+  //   console.log('entering onCombineDataAndSave');
+  //   const csvFileDataArray = this.state.csvFileData;
+  //
+  //   const combinedData = [];
+  //   let combinedDataOneApp = {};
+  //   let csvFileDataData = '';
+  //
+  //   let i = 0;
+  //   for (i = 0; i < csvFileDataArray.length; i++) {
+  //     csvFileDataData = csvFileDataArray[i].osVersionData;
+  //     combinedDataOneApp = {
+  //       osversionData: csvFileDataData
+  //     };
+  //     // console.log(combinedDataOneApp);
+  //     combinedData.push(combinedDataOneApp);
+  //   }
+  //   this.setState({ combinedDataToPersist: combinedData });
+  //   console.log('leaving onCombineDataAndSave');
+  // };
 
   onSaveAllAppsDataToFile = () => {
     const jsonData = [
@@ -185,24 +138,21 @@ class ImportCsvData extends Component {
     // (C:/Program Files/path/myfileexample.txt)
     const dataToSave = this.state.combinedDataToPersist;
     content = JSON.stringify(dataToSave);
-    dialog.showSaveDialog({ defaultPath: '~/app/components/output/allAppsData.json' }, (fileName) => {
+    dialog.showSaveDialog({ defaultPath: '~/data/mogoData.json' }, (fileName) => {
       console.log(`fileName is ==> ${fileName}`);
       if (fileName === undefined) {
         console.log("You didn't save the file");
         return;
       }
-
         // fileName is a string that contains the path and filename created in the save file dialog.
       fs.writeFile(fileName, content, (err) => {
         if (err) {
           alert(`An error ocurred creating the file ${err.message}`);
         }
-
         alert('The file has been succesfully saved');
       });
     });
-  }
-
+  };
 
   render() {
     const jsonDataFile = 'jsonDataFile';
@@ -244,11 +194,6 @@ class ImportCsvData extends Component {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={this.onCombineDataAndSave}
-                  >Combine Data</button>&nbsp;
-                  <button
-                    type="button"
-                    className="btn btn-primary"
                     onClick={this.onSaveAllAppsDataToFile}
                   >Save As...</button>&nbsp;
                 </div>
@@ -268,6 +213,5 @@ class ImportCsvData extends Component {
     );
   }
 }
-
 
 export default ImportCsvData;
