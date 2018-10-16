@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 // import styles from './Home.css';
 import ImportCsvData from '../components/ImportCsvData';
 import RequestHttpClientUse from './RequestHttpClientUse';
+import PlayWithGooglePlayScraper from './PlayWithGooglePlayScraper';
 
 export default class Home extends Component {
   state: {
@@ -23,7 +24,9 @@ export default class Home extends Component {
             <h2>SeedCo Fix Stripe/Mongo Transactions</h2>
           </div>
           <ImportCsvData />
+          <PlayWithGooglePlayScraper />
           <RequestHttpClientUse />
+
         </div>
       </div>
     );

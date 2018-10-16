@@ -5,20 +5,14 @@ const request = require('request');
 
 class RequestHttpClientUse extends Component {
   state: {
-    csvFileData: [],
-    csvFileSelected: boolean,
-    csvFileToProcess: string,
-    combinedDataToPersist: []
+    aBoolian: boolean
   };
   constructor() {
     super();
     this.onUploadDonationRecordsToServer = this.onUploadDonationRecordsToServer.bind(this);
     // this.onProcessCsvFile = this.onProcessCsvFile.bind(this);
     this.state = {
-      csvFileData: [],
-      csvFileSelected: false,
-      csvFileToProcess: 'csvFileToProcess',
-      combinedDataToPersist: []
+      aBoolian: true
     };
   }
   onUploadDonationRecordsToServer = () => {
