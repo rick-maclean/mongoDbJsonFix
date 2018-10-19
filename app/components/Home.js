@@ -24,7 +24,7 @@ export default class Home extends Component {
             <h2>SeedCo Fix Stripe/Mongo Transactions</h2>
           </div>
           <ImportCsvData />
-          <PlayWithGooglePlayScraper />
+          {/* <PlayWithGooglePlayScraper /> */}
           <RequestHttpClientUse />
 
         </div>
